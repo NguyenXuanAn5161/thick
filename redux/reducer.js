@@ -1,6 +1,7 @@
 import {
   FETCH_TODOS,
   ADD_TODO,
+  EDIT_TODO,
   DELETE_TODO,
   LOGIN_SUCCESS,
   LOGOUT,
@@ -17,6 +18,15 @@ const todoReducer = (state = initialState, action) => {
       return { ...state, todos: action.payload };
     case ADD_TODO:
       return { ...state, todos: [...state.todos, action.payload] };
+    case EDIT_TODO:
+      return {
+        ...state,
+        todos: state.todos.map((todo) =>
+          todo.id === action.payload.id
+            ? { ...todo, task: action.payload.task }
+            : todo
+        ),
+      };
     case DELETE_TODO:
       return {
         ...state,

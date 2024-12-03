@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 import { fetchTodos, deleteTodo } from "../redux/actions";
 import axios from "axios";
 
@@ -15,6 +16,7 @@ const TodoList = () => {
   const [loading, setLoading] = useState(true);
   const todos = useSelector((state) => state.todos);
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,12 +71,25 @@ const TodoList = () => {
       renderItem={({ item }) => (
         <View style={styles.todoItem}>
           <Text style={styles.todoText}>{item.task}</Text>
-          <TouchableOpacity
-            style={styles.deleteButton}
-            onPress={() => handleDelete(item.id)}
-          >
-            <Text style={styles.deleteButtonText}>Delete</Text>
-          </TouchableOpacity>
+          <View style={styles.actionButtons}>
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={() =>
+                navigation.navigate("EditTodo", {
+                  id: item.id,
+                  currentTask: item.task,
+                })
+              }
+            >
+              <Text style={styles.buttonText}>Edit</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.deleteButton}
+              onPress={() => handleDelete(item.id)}
+            >
+              <Text style={styles.buttonText}>Delete</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       )}
     />
@@ -123,14 +138,24 @@ const styles = StyleSheet.create({
   todoText: {
     fontSize: 16,
     color: "#333",
+    flex: 1,
+  },
+  actionButtons: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  editButton: {
+    backgroundColor: "#4caf50",
+    padding: 8,
+    borderRadius: 5,
+    marginRight: 5,
   },
   deleteButton: {
     backgroundColor: "#f44336",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    padding: 8,
     borderRadius: 5,
   },
-  deleteButtonText: {
+  buttonText: {
     color: "#fff",
     fontSize: 14,
   },
