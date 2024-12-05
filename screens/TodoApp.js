@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../redux/actions";
+import { logout } from "../redux/reducer";
 import AddTodo from "./AddTodo";
 import TodoList from "./TodoList";
 

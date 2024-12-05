@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useDispatch } from "react-redux";
-import { addTodo } from "../redux/actions";
+import { addTodo } from "../redux/reducer";
 import axios from "axios";
 
 const AddTodo = () => {

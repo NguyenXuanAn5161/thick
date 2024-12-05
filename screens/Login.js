@@ -7,7 +7,7 @@ import {
   Text,
 } from "react-native";
 import { useDispatch } from "react-redux";
-import { loginSuccess } from "../redux/actions";
+import { loginSuccess } from "../redux/reducer";
 import axios from "axios";
 
 const Login = ({ navigation }) => {

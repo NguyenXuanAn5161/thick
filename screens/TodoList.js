@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import { fetchTodos, deleteTodo } from "../redux/actions";
+import { fetchTodos, deleteTodo } from "../redux/reducer";
 import axios from "axios";
 
 const TodoList = () => {

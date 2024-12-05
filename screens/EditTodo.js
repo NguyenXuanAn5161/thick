@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useDispatch } from "react-redux";
-import { editTodo } from "../redux/actions";
+import { editTodo } from "../redux/reducer";
 import axios from "axios";
 
 const EditTodo = ({ route, navigation }) => {
@@ -21,8 +21,9 @@ const EditTodo = ({ route, navigation }) => {
         `https://674d11d854e1fca9290e4189.mockapi.io/todos/${id}`,
         { task }
       );
-      dispatch(editTodo(id, response.data.task));
-      navigation.goBack(); // Quay lại màn hình trước
+      // dispatch(editTodo(id, response.data.task));
+      dispatch(editTodo({ id, task: response.data.task }));
+      navigation.goBack();
     } catch (error) {
       console.error("Error saving todo:", error);
     }

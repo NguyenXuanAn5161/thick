@@ -1,44 +1,52 @@
-import {
-  FETCH_TODOS,
-  ADD_TODO,
-  EDIT_TODO,
-  DELETE_TODO,
-  LOGIN_SUCCESS,
-  LOGOUT,
-} from "./actions";
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  todos: [],
-  user: null, // Quản lý trạng thái người dùng
-};
+const todoSlice = createSlice({
+  name: "todos",
+  initialState: {
+    todos: [],
+    user: null,
+  },
+  reducers: {
+    fetchTodos: (state, action) => {
+      state.todos = action.payload;
+    },
+    addTodo: (state, action) => {
+      state.todos.push(action.payload);
+    },
+    // editTodo: (state, action) => {
+    //   const { id, task } = action.payload;
+    //   const todo = state.todos.find((todo) => todo.id === id);
+    //   if (todo) todo.task = task;
+    // },
+    editTodo: (state, action) => {
+      console.log("Payload received:", action.payload); // Kiểm tra payload
+      const { id, task } = action.payload;
+      const todo = state.todos.find((todo) => todo.id === id);
+      if (todo) {
+        todo.task = task;
+      } else {
+        console.error(`Todo with id ${id} not found`);
+      }
+    },
+    deleteTodo: (state, action) => {
+      state.todos = state.todos.filter((todo) => todo.id !== action.payload);
+    },
+    loginSuccess: (state, action) => {
+      state.user = action.payload;
+    },
+    logout: (state) => {
+      state.user = null;
+    },
+  },
+});
 
-const todoReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case FETCH_TODOS:
-      return { ...state, todos: action.payload };
-    case ADD_TODO:
-      return { ...state, todos: [...state.todos, action.payload] };
-    case EDIT_TODO:
-      return {
-        ...state,
-        todos: state.todos.map((todo) =>
-          todo.id === action.payload.id
-            ? { ...todo, task: action.payload.task }
-            : todo
-        ),
-      };
-    case DELETE_TODO:
-      return {
-        ...state,
-        todos: state.todos.filter((todo) => todo.id !== action.payload),
-      };
-    case LOGIN_SUCCESS:
-      return { ...state, user: action.payload };
-    case LOGOUT:
-      return { ...state, user: null };
-    default:
-      return state;
-  }
-};
+export const {
+  fetchTodos,
+  addTodo,
+  editTodo,
+  deleteTodo,
+  loginSuccess,
+  logout,
+} = todoSlice.actions;
 
-export default todoReducer;
+export default todoSlice.reducer;
